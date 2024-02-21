@@ -12,6 +12,7 @@ function Login() {
       ></img>
       <a href={loginUrl}> LOG IN WITH SPORTIFY</a>
     </div>
+    
   );
 }
 
