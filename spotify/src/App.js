@@ -38,6 +38,13 @@ function App() {
             type: "SET_PLAYLISTS",
             playlists: playlists,
           });
+
+          spotify.getPlaylist("37i9dQZEVXcVKD4e5V19n7").then((response) =>
+            dispatch({
+              type: "SET_DISCOVER_WEEKLY",
+              discover_weekly: response,
+            })
+          );
         }
       } catch (error) {
         console.error("Error fetching data:", error);
