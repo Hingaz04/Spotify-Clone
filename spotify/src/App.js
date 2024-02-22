@@ -17,29 +17,35 @@ function App() {
 
     const _token = hash.access_token;
 
-    if (_token) {
-      dispatch({
-        type: "SET_TOKEN",
-        token: _token,
-      });
+    const fetchData = async () => {
+      try {
+        if (_token) {
+          dispatch({
+            type: "SET_TOKEN",
+            token: _token,
+          });
 
-      spotify.setAccessToken(_token);
+          spotify.setAccessToken(_token);
 
-      spotify.getMe().then((user) => {
-        dispatch({
-          type: "SET_USER",
-          user: user,
-        });
-      });
+          const user = await spotify.getMe();
+          dispatch({
+            type: "SET_USER",
+            user: user,
+          });
 
-      spotify.getUserPlaylists().then((playlists) => {
-        dispatch({
-          type: "SET_PLAYLISTS",
-          playlists: playlists,
-        });
-      });
-    }
-  }, []);
+          const playlists = await spotify.getUserPlaylists();
+          dispatch({
+            type: "SET_PLAYLISTS",
+            playlists: playlists,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   return (
     <div className="App">
